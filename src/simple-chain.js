@@ -11,10 +11,10 @@ const { NotImplementedError } = require('../extensions/index.js');
   getLength() {
       return this.chain.length;
   },
-  // addLink(value) {
-  //     this.chain.push(value);
-  //     return this;
-  // },
+  addLink(value) {
+      this.chain.push(value);
+      return this;
+  },
   removeLink(position) {
       if (typeof position != 'number' || position < 1 || position > this.chain.length) {
           this.chain = []
