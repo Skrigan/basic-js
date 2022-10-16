@@ -20,13 +20,46 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  constructor(reverse = true) {
+    this.reverse = reverse
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  encrypt(word, key) {
+    if ((word && key) === undefined) throw new Error('Incorrect arguments!')
+    word = word.toUpperCase();
+    key = key.toUpperCase();
+    let res = ''
+    for (let i = 0, j = 0; i < word.length; i++, j++) {
+        if (j == key.length) j = 0;
+        if (word.charCodeAt(i) > 90 || word.charCodeAt(i) < 65) {
+            res += word[i]
+            j--
+            continue;
+        }
+        let char = word.charCodeAt(i) + key.charCodeAt(j) - 65;
+        console.log(char)
+        res += char > 90 ? String.fromCharCode(char - 26) : String.fromCharCode(char);
+    }
+    return this.reverse ? res : res.split('').reverse().join('')
+  }
+
+  decrypt(word, key) {
+    if ((word && key) === undefined) throw new Error('Incorrect arguments!')
+    key = key.toUpperCase();
+    let res = ''
+    for (let i = 0, j = 0; i < word.length; i++, j++) {
+        if (j == key.length) j = 0;
+        let char = word.charCodeAt(i) - key.charCodeAt(j) + 65;
+        console.log(char, word[i])
+        if (word.charCodeAt(i) > 90 || word.charCodeAt(i) < 65) {
+            res += word[i]
+            j--
+            continue;
+        }
+        res += char < 65 ? String.fromCharCode(char + 26) : String.fromCharCode(char);
+    }
+    return this.reverse ? res : res.split('').reverse().join('')
   }
 }
 
