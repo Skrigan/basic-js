@@ -19,16 +19,19 @@ const { NotImplementedError } = require('../extensions/index.js');
       if (typeof position != 'number' || position < 1 || position > this.chain.length) {
           this.chain = []
           throw new Error("You can't remove incorrect link!")
+      } else {
+        this.chain.splice(position-1, 1);
+        return this;
       }
-      this.chain.splice(position-1, 1);
-      return this;
   },
   reverseChain() {
       this.chain.reverse();
       return this;
   },
   finishChain() {
-      return this.chain.map( item => `( ${item} )` ).join('~~');
+      let finalChain = this.chain;
+      this.chain = [];
+      return finalChain.map( item => `( ${item} )` ).join('~~');
   }
 };
 
